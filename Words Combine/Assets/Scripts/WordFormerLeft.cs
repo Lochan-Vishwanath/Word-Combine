@@ -7,12 +7,15 @@ public class WordFormerLeft : MonoBehaviour
     public string Word;
     public string Letter;
     public ArrayOfStrings aos;
+    public Transform mainCanvas;
 
     public GameObject letterToTheLeft;
 
     public static Stack<GameObject> stackOfLeftObjs = new Stack<GameObject>();
 
     bool wordFound = false;
+
+    int superI = 0;
 
     private void Start()
     {
@@ -45,6 +48,7 @@ public class WordFormerLeft : MonoBehaviour
                     Debug.Log("Word Found");
                     wordFound = true;
                     stackOfLeftObjs.Push(transform.parent.gameObject);
+                    superI = i;
                     StartCoroutine("wordFoundSequence");
                     //aos.ArrayofBlanks[i].enabled = false;
                     //aos.ArrayofTexts[i].gameObject.SetActive(true);
@@ -74,6 +78,10 @@ public class WordFormerLeft : MonoBehaviour
         while (i < sizeOfStack)
         {
             GameObject obj = stackOfLeftObjs.Pop();
+            RectTransform gameObjectsLetter = obj.GetComponent<UIFollow>().nameLabel;
+            GameObject letterDuplicate = Instantiate(gameObjectsLetter.gameObject, gameObjectsLetter.transform.position, gameObjectsLetter.transform.rotation);
+            letterDuplicate.transform.SetParent(mainCanvas);
+            letterDuplicate.transform.position = Vector3.Lerp(letterDuplicate.transform.position, aos.ArrayofBlanks[superI].transform.position,0.1f);
             obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + 0.5f, obj.transform.position.z);
             obj.transform.localScale *= 1.5f;
