@@ -79,9 +79,13 @@ public class WordFormerLeft : MonoBehaviour
         {
             GameObject obj = stackOfLeftObjs.Pop();
             RectTransform gameObjectsLetter = obj.GetComponent<UIFollow>().nameLabel;
-            GameObject letterDuplicate = Instantiate(gameObjectsLetter.gameObject, gameObjectsLetter.transform.position, gameObjectsLetter.transform.rotation);
+            GameObject letterDuplicate = Instantiate(gameObjectsLetter.gameObject);
             letterDuplicate.transform.SetParent(mainCanvas);
-            letterDuplicate.transform.position = Vector3.Lerp(letterDuplicate.transform.position, aos.ArrayofBlanks[superI].transform.position,0.1f);
+            letterDuplicate.transform.position = gameObjectsLetter.transform.position;
+            letterDuplicate.transform.rotation = gameObjectsLetter.transform.rotation;
+            letterDuplicate.transform.localScale = Vector3.one;
+            //Call Ienumarator to lero position
+            //letterDuplicate.transform.position = Vector3.Lerp(letterDuplicate.transform.position, aos.ArrayofBlanks[superI].transform.position,0.1f);
             obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + 0.5f, obj.transform.position.z);
             obj.transform.localScale *= 1.5f;
